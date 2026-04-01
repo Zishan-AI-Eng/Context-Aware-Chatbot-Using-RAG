@@ -1,17 +1,26 @@
-
-import streamlit as st
 import os
+import streamlit as st
+import wikipedia
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
-import wikipedia
 
 st.set_page_config(page_title="RAG Chatbot", page_icon="🤖", layout="wide")
 
 st.title("🤖 RAG Chatbot — AI/ML Knowledge Base")
 st.markdown("Ask me anything about **Machine Learning, Deep Learning, NLP, Transformers** and more!")
+
+# API Key - Streamlit Cloud secrets se lo
+try:
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+except Exception:
+    GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+
+if not GROQ_API_KEY:
+    st.error("❌ GROQ_API_KEY not found! Please add it in Streamlit Cloud Secrets.")
+    st.stop()
 
 # Initialize session state
 if "chat_history" not in st.session_state:
@@ -19,7 +28,7 @@ if "chat_history" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "vectorstore" not in st.session_state:
-    with st.spinner("⏳ Loading Knowledge Base... Please wait..."):
+    with st.spinner("⏳ Loading Knowledge Base... Please wait (1-2 mins)..."):
         topics = [
             "Machine learning", "Deep learning",
             "Natural language processing", "Artificial neural network",
@@ -53,7 +62,7 @@ if "vectorstore" not in st.session_state:
         st.session_state.llm = ChatGroq(
             model_name="llama-3.3-70b-versatile",
             temperature=0.7,
-            api_key=os.environ.get("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY")
+            api_key=GROQ_API_KEY
         )
     st.success("✅ Knowledge Base Loaded!")
 
