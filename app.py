@@ -48,7 +48,7 @@ if "vectorstore" not in st.session_state:
         st.session_state.vectorstore = Chroma.from_documents(
             documents=all_chunks,
             embedding=embeddings,
-            persist_directory="/content/chroma_db"
+            persist_directory=None
         )
         st.session_state.llm = ChatGroq(
             model_name="llama-3.3-70b-versatile",
