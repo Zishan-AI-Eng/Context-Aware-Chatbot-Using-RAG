@@ -3,6 +3,11 @@
 > An intelligent conversational chatbot that retrieves answers from a vectorized knowledge base using Retrieval-Augmented Generation (RAG), powered by Groq's Llama 3.3 70B and deployed with Streamlit.
 
 ---
+## 🌐 Live Demo
+
+👉 **[Click here to try the chatbot live!](https://context-aware-chatbot-using-rag-bzhtfcq2xwuatlcch3ddyb.streamlit.app/
+)**
+
 
 ## 📌 Objective
 
